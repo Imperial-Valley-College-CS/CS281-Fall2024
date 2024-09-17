@@ -1,0 +1,3 @@
+﻿  Assembling main.asm...
+main.obj : warning LNK4258: directive '/ENTRY:main@0' not compatible with switch '/ENTRY:main'; ignored
+  Max.vcxproj -> C:\Users\octavio.ortiz\OneDrive - Imperial Valley College\CS 281\ClassScripts\Fall2024\Ch5_Procedures\Max\Debug\Max.exe
