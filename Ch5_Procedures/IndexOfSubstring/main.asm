@@ -6,9 +6,9 @@ ExitProcess proto, dwExitCode:dword
 
 .data
 	str1 byte "stacking",0
-	lenStr1 = ($-str1)
-	str2 byte "king",0
-	lenStr2 = ($-str2)
+	lenStr1 = ($-str1)-1
+	str2 byte "kind",0
+	lenStr2 = ($-str2)-1
 	index byte 0
 
 
@@ -17,8 +17,8 @@ ExitProcess proto, dwExitCode:dword
 		
 		mov esi, offset str1
 		mov edi, offset str2
-		mov ecx, lenStr1-1
-		mov edx, lenStr2-1
+		mov ecx, lenStr1-lenStr2+1
+		mov edx, lenStr2
 		call indexOf
 		mov index, al
 
@@ -27,7 +27,6 @@ ExitProcess proto, dwExitCode:dword
 
 	indexOf proc
 		mov eax, 0			;value to be returned
-		mov ecx, 5			;need to update using lenStr1 and lenStr2
 
 		jmp L1
 
@@ -37,6 +36,7 @@ ExitProcess proto, dwExitCode:dword
 			pop esi
 			inc esi
 			dec ecx
+			jecxz notInString		;jump if ecx is zero
 			
 		L1:					;loop traverses bigger String
 			mov bh, byte ptr [esi]
@@ -48,8 +48,9 @@ ExitProcess proto, dwExitCode:dword
 			loop L1
 
 		;reached end of String1 and String2 is not in String1
-		mov eax, -1
-		jmp done
+		notInString:
+			mov eax, -1
+			jmp done
 
 		foundChars:
 			push esi
