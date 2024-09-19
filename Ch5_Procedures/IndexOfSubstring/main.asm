@@ -38,7 +38,7 @@ ExitProcess proto, dwExitCode:dword
 			inc esi
 			dec ecx
 			
-		L1:										;loop traverses bigger String
+		L1:					;loop traverses bigger String
 			mov bh, byte ptr [esi]
 			mov bl, byte ptr [edi]
 			cmp bh, bl
@@ -58,7 +58,7 @@ ExitProcess proto, dwExitCode:dword
 			mov ecx, edx
 			dec ecx			;already compared the first pair of matching characters
 
-			L2:					;loop traverses both String1 and String2 simultaneously
+			L2:			;loop traverses both String1 and String2 simultaneously
 				inc esi
 				inc edi
 				mov bh, byte ptr [esi]
