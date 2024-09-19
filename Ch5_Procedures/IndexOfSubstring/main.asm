@@ -7,7 +7,7 @@ ExitProcess proto, dwExitCode:dword
 .data
 	str1 byte "stacking",0
 	lenStr1 = ($-str1)
-	str2 byte "ack",0
+	str2 byte "king",0
 	lenStr2 = ($-str2)
 	index byte 0
 
@@ -56,6 +56,7 @@ ExitProcess proto, dwExitCode:dword
 			push edi
 			push ecx
 			mov ecx, edx
+			dec ecx			;already compared the first pair of matching characters
 
 			L2:					;loop traverses both String1 and String2 simultaneously
 				inc esi
