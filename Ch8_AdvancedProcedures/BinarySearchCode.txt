@@ -1,0 +1,86 @@
+.386
+.model flat, stdcall
+.stack 4096
+
+ExitProcess proto, dwExitCode:dword
+
+.data
+	arr word 34, 87, 90, 220, 289, 301, 399, 480
+	lenArr = ($-arr)
+	value word 289
+	index byte ?
+
+.code
+	main proc
+
+		mov eax, 0					;low index
+		mov ebx, lenArr			;high index
+		sub ebx, 2					;subtract type word to point to last element
+		push offset arr			;ebp+18
+		push value						;ebp+16
+		push eax						;ebp+12
+		push ebx						;ebp+8
+		call binSearch
+		mov index, cl				;index returned in dx
+
+		INVOKE ExitProcess, 0
+	main endp
+
+	binSearch	 proc
+		push ebp
+		mov ebp, esp						;make stack-base pointer
+		sub esp, 2							;make space for 2 byte variable
+		mov byte ptr [ebp-1], 2	;make local variable for division (divide by 2)
+
+		mov esi, [ebp+18]		;move offset of arr into esi
+		mov dx, [ebp+16]		;move element to search in dx
+		mov eax, [ebp+12]		;move low index into eax
+		mov ebx, [ebp+8]		;move high index into ebx
+	
+		cmp eax, ebx			;compare low and high 
+		jg elemNotFound		;check base case (low > high) element is not found
+
+		push eax									;preserve low index
+		add eax, ebx								;add low+high
+		div byte ptr [ebp-1]					;average index (low+high)/2 (quotient in AL)
+		mov byte ptr [ebp-2], al			;move mid index to local variable
+		pop eax										;restore lower index
+
+		movzx edi, byte ptr [ebp-2]			;move mid index to register
+		cmp dx, word ptr [esi+edi]			;compare element to middle element
+		jg checkUpperHalf
+		jl checkLowerHalf
+		mov al, byte ptr [ebp-2]				;move index back to AL
+		div byte ptr [ebp-1]						;divide index by type word
+		mov cl, al										;found element, move index to cl (return register)
+		jmp restoreStack
+
+
+		checkUpperHalf:
+			add edi, type word			;increment mid index by 2 (new low)
+			mov eax, edi						;move new low index to eax
+			jmp recursiveCall
+
+		checkLowerHalf:
+			sub edi, type word			;decrement mid index by 2 (new high)
+			mov ebx, edi						;move new high index to ebx
+			jmp recursiveCall
+
+		recursiveCall:			
+			push esi						;push offset of 
+			push dx						;push element to find
+			push eax						;push lower index
+			push ebx						;push high index
+			call binSearch				;recursive call to binSearch
+			jmp restoreStack
+
+		elemNotFound:
+		mov ecx, -1
+		jmp restoreStack
+
+		restoreStack:
+		add esp, 2
+		pop ebp
+		ret 14
+	binSearch endp
+END main
