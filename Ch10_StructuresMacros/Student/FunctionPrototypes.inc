@@ -4,3 +4,5 @@
 
 ExitProcess proto, dwExitCode:DWORD
 countAdults proto, ptrArray: ptr Student, lenArr:dword
+countNameChars proto, ptrArray:ptr Student, lenArr:dword, ptrLenNamesArr:ptr byte
+	
