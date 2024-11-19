@@ -130,6 +130,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <MASM Include="main.asm" />
+    <MASM Include="UtilityProcs.asm" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Constants.inc" />
