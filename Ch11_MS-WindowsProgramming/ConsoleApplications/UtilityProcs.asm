@@ -11,7 +11,7 @@ ReadString proc,
 
 		.code
 		invoke GetStdHandle, STD_INPUT_Handle			;value returned is in EAX
-		invoke ReadConsole, eax, ptrBuffer, MAX_CHARS_READ, addr charsRead, 0
+		invoke ReadConsole, eax, ptrBuffer, MAX_CHARS_TO_READ, addr charsRead, 0
 
 	ret
 ReadString endp
@@ -48,4 +48,25 @@ done:
 	pop esi
 	ret
 LenStr endp
+
+ReadFromFile proc,
+	ptrBuffer:ptr byte,
+	ptrFileName:ptr byte
+
+
+	.code
+	INVOKE CreateFile,																;file handle returned in eax
+		ptrFileName, GENERIC_READ, DO_NOT_SHARE, NULL,
+		OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0 
+
+	;invoke GetLastError
+
+	push eax
+	invoke ReadFile,
+		eax, ptrBuffer, MAX_CHARS_TO_READ, addr charsRead, NULL
+	pop eax
+	invoke CloseHandle, eax
+
+	  ret
+ReadFromFile endp
 end
