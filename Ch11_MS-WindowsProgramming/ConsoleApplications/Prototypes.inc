@@ -44,3 +44,7 @@ ReadString proto,
 ReadFromFile proto,
 	ptrBuffer:ptr byte,
 	ptrFile:ptr byte
+parseInt proto,
+	ptrString: ptr byte
+writeInt proto,
+	nVal:dword
