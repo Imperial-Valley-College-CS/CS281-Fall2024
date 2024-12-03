@@ -16,10 +16,10 @@ include Prototypes.inc
 		
 		;invoke ReadString, addr buffer
 		;invoke WriteString, addr buffer
-		;invoke ReadFromFile, addr buffer, addr file												;user-defined
-		invoke parseInt, offset someStr					;integer value returned in eax
-		mov age, al													;move return value (low byte) to memory
-		invoke WriteInt, age									;integer to write to console
+		invoke ReadFromFile, addr buffer, addr file												;user-defined
+		;invoke parseInt, offset someStr					;integer value returned in eax
+		;mov age, al													;move return value (low byte) to memory
+		;invoke WriteInt, age									;integer to write to console
 
 		
 		INVOKE ExitProcess, 0
